@@ -56,7 +56,12 @@ export class UserService {
   }
 
   async getAllUsers() {
-    return this.userModel.find();
+    const users = await this.userModel.find();
+    if (!users) {
+      throw new NotFoundException('Something went wrong');
+    }
+
+    return users;
   }
 
   filterUser(user: User, allowedFields: (keyof User)[] = []) {
